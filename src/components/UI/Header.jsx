@@ -68,4 +68,73 @@ const Header = ({ onRefresh, onExport, isLoading = false, stats = {} }) => {
               flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-300 
               text-sm font-medium transition-colors
               ${isLoading 
-                ? '
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                : 'bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-400'
+              }
+            `}
+            title="Refresh Data"
+          >
+            <RefreshCw className={`w-4 h-4 ${isLoading ? 'animate-spin' : ''}`} />
+            <span className="hidden sm:inline">Refresh</span>
+          </button>
+
+          <button
+            onClick={onExport}
+            disabled={isLoading}
+            className={`
+              flex items-center space-x-2 px-4 py-2 rounded-lg border border-primary-300 
+              text-sm font-medium transition-colors
+              ${isLoading 
+                ? 'bg-gray-100 text-gray-400 cursor-not-allowed' 
+                : 'bg-primary-50 text-primary-700 hover:bg-primary-100'
+              }
+            `}
+            title="Export Report"
+          >
+            <Download className="w-4 h-4" />
+            <span className="hidden sm:inline">Export</span>
+          </button>
+
+          <button
+            className="flex items-center space-x-2 px-4 py-2 rounded-lg border border-gray-300 
+                     bg-white text-gray-700 hover:bg-gray-50 text-sm font-medium transition-colors"
+            title="Settings"
+          >
+            <Settings className="w-4 h-4" />
+            <span className="hidden sm:inline">Settings</span>
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Statistics */}
+      {stats.totalApps && (
+        <div className="md:hidden mt-4 grid grid-cols-2 gap-4">
+          <div className="text-center p-3 bg-gray-50 rounded-lg">
+            <div className="text-xl font-bold text-primary-600">
+              {stats.totalApps?.toLocaleString() || 0}
+            </div>
+            <div className="text-xs text-gray-500">Total Apps</div>
+          </div>
+          <div className="text-center p-3 bg-gray-50 rounded-lg">
+            <div className="text-xl font-bold text-accent-600">
+              {stats.totalCategories || 0}
+            </div>
+            <div className="text-xs text-gray-500">Categories</div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading Indicator */}
+      {isLoading && (
+        <div className="mt-4">
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <div className="w-4 h-4 border-2 border-primary-200 border-t-primary-600 rounded-full animate-spin"></div>
+            <span>Loading data...</span>
+          </div>
+        </div>
+      )}
+    </header>
+  );
+};
+
+export default Header;
