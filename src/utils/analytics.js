@@ -257,3 +257,86 @@ export const generateInsights = (apps, reviews) => {
       title: 'Market Opportunities',
       description: `Consider entering or improving apps in: ${lowPerformingCategories.map(cat => cat.category).join(', ')}`
     });
+  }
+  
+  return {
+    insights,
+    recommendations,
+    keyMetrics: {
+      totalApps: apps.length,
+      avgRating: _.mean(apps.filter(app => app.rating).map(app => app.rating)),
+      totalInstalls: _.sum(apps.map(app => app.installsNumber)),
+      topCategory: topCategory.category
+    }
+  };
+};
+
+/**
+ * Generates data for charts and visualizations
+ * @param {Array} apps - Apps data
+ * @returns {Object} Chart data
+ */
+export const generateChartData = (apps) => {
+  // Category distribution for pie chart
+  const categoryData = calculateFrequencyAnalysis(apps.map(app => app.category), 10)
+    .map(item => ({
+      name: item.value,
+      value: item.count,
+      percentage: item.percentage
+    }));
+  
+  // Rating distribution for histogram
+  const ratingBins = [
+    { range: '1.0-2.0', count: 0, min: 1.0, max: 2.0 },
+    { range: '2.0-3.0', count: 0, min: 2.0, max: 3.0 },
+    { range: '3.0-4.0', count: 0, min: 3.0, max: 4.0 },
+    { range: '4.0-4.5', count: 0, min: 4.0, max: 4.5 },
+    { range: '4.5-5.0', count: 0, min: 4.5, max: 5.0 }
+  ];
+  
+  apps.filter(app => app.rating).forEach(app => {
+    const bin = ratingBins.find(b => app.rating >= b.min && app.rating < b.max) ||
+                ratingBins.find(b => app.rating >= b.min && app.rating <= b.max);
+    if (bin) bin.count++;
+  });
+  
+  const ratingDistributionData = ratingBins.map(bin => ({
+    range: bin.range,
+    count: bin.count
+  }));
+  
+  // Install categories for bar chart
+  const installData = calculateFrequencyAnalysis(apps.map(app => app.installsCategory))
+    .map(item => ({
+      category: item.value,
+      count: item.count
+    }));
+  
+  // Price vs Rating scatter plot data
+  const priceRatingData = apps
+    .filter(app => app.rating && app.priceNumber !== undefined)
+    .map(app => ({
+      price: app.priceNumber,
+      rating: app.rating,
+      installs: app.installsNumber,
+      category: app.category
+    }));
+  
+  // Top categories performance
+  const categoryPerformance = analyzeCategoryPerformance(apps)
+    .slice(0, 10)
+    .map(cat => ({
+      category: cat.category,
+      avgRating: cat.avgRating,
+      appCount: cat.appCount,
+      totalInstalls: cat.totalInstalls
+    }));
+  
+  return {
+    categoryDistribution: categoryData,
+    ratingDistribution: ratingDistributionData,
+    installDistribution: installData,
+    priceVsRating: priceRatingData,
+    categoryPerformance
+  };
+};
