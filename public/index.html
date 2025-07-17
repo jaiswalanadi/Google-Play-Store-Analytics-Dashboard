@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Comprehensive analytics dashboard for Google Play Store apps data analysis" />
+    <meta name="keywords" content="google play store, analytics, data visualization, app analysis" />
+    <meta name="author" content="Data Analytics Team" />
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Google Play Store Analytics Dashboard" />
+    <meta property="og:description" content="Explore app trends, ratings, and market insights from Google Play Store data" />
+    <meta property="og:type" content="website" />
+    
+    <!-- Preconnect to external domains for performance -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <title>Google Play Store Analytics</title>
+    
+    <style>
+      /* Critical CSS for initial load */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        font-family: 'Inter', system-ui, -apple-system, sans-serif;
+        background-color: #f8fafc;
+        color: #1e293b;
+        line-height: 1.6;
+      }
+      
+      #root {
+        min-height: 100vh;
+      }
+      
+      /* Loading animation for initial page load */
+      .initial-loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease-out;
+      }
+      
+      .loader-content {
+        text-align: center;
+        color: white;
+      }
+      
+      .loader-spinner {
+        width: 50px;
+        height: 50px;
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 20px;
+      }
+      
+      @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      
+      .loader-text {
+        font-size: 18px;
+        font-weight: 500;
+        margin-bottom: 8px;
+      }
+      
+      .loader-subtitle {
+        font-size: 14px;
+        opacity: 0.8;
+      }
+      
+      /* Hide loader when app loads */
+      .app-loaded .initial-loader {
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Initial Loading Screen -->
+    <div id="initial-loader" class="initial-loader">
+      <div class="loader-content">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">Google Play Store Analytics</div>
+        <div class="loader-subtitle">Loading dashboard...</div>
+      </div>
+    </div>
+    
+    <!-- React App Container -->
+    <div id="root"></div>
+    
+    <!-- Module Script -->
+    <script type="module" src="/src/main.jsx"></script>
+    
+    <!-- Remove loader when app is ready -->
+    <script>
+      // Remove initial loader after a maximum of 3 seconds
+      setTimeout(() => {
+        const loader = document.getElementById('initial-loader');
+        if (loader) {
+          document.body.classList.add('app-loaded');
+          setTimeout(() => loader.remove(), 500);
+        }
+      }, 3000);
+    </script>
+  </body>
+</html>
