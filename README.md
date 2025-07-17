@@ -274,13 +274,3 @@ This project is licensed under the MIT License. See the [LICENSE](LICENSE) file 
 - **Icons**: Lucide React icon library
 - **Design**: Modern dashboard design principles
 
-## 📞 **Support**
-
-For support and questions:
-- 📧 Email: support@yourproject.com
-- 💬 Issues: GitHub Issues
-- 📖 Documentation: Project Wiki
-
----
-
-**Built with ❤️ for data analytics and insights**
